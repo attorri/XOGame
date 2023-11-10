@@ -1,0 +1,67 @@
+﻿@page
+@model IndexModel
+
+<style>
+    a{
+        color:black;
+        font-size:60px;
+    }
+    td{
+        padding:15px;
+        color: black;
+        font-size: 60px;
+    }
+
+</style>
+
+<body>
+        <script>
+            // Function to show an alert with a custom message
+            function showAlert(message) {
+                window.alert(message);
+            }
+
+            // Check if the game has ended (call this when game ends)
+            function checkGameEnd() {
+                console.log("checking");
+                // Assuming "gameEnded" is a property in the model set when the game ends
+                if (@Model.GameEnded.ToString().ToLower()) {
+                showAlert('@Model.GameResultMessage'); // Display the game result message
+                }
+            }
+
+            // Call checkGameEnd when the page loads
+            window.onload = checkGameEnd;
+        </script>
+        <center>
+    <h1>Tic-Tac-Toe Game</h1>
+    <div>
+        <table>
+            @for (int row = 0; row < 3; row++)
+            {
+                <tr>
+                    @for (int col = 0; col < 3; col++)
+                    {
+                        <td>
+                            @if (IndexModel.Board[row, col] == '\0')
+                            {
+                                <a asp-page="./Index" asp-route-row="@row" asp-route-current="@Model.CurrentPlayer" asp-route-col="@col">[]</a>
+                            }
+                            else
+                            {
+                                <span>@IndexModel.Board[row, col]</span>
+                            }
+                        </td>
+                    }
+                </tr>
+            }
+          </table>
+    </div>
+    <form method="post">
+        <button type="submit" asp-page-handler="RestartGame">Reset Game</button>
+    </form>
+    </center>
+   
+</body>
+
+
